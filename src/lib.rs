@@ -44,7 +44,7 @@ pub struct Spec {
     #[serde(skip_serializing_if = "Option::is_none")]
     hooks: Option<Hooks>,
     /// Annotations contains arbitrary metadata for the container.
-    #[serde(skip_serializing_if = "HashMap::is_empty")]
+    #[serde(skip_serializing_if = "HashMap::is_empty", default)]
     annotations: HashMap<String, String>,
     /// Linux is platform-specific configuration for Linux based containers.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -136,7 +136,7 @@ pub struct User {
     #[serde(skip_serializing_if = "Option::is_none")]
     umask: Option<u32>,
     /// AdditionalGids are additional group ids set for the container's process.
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "additionalGids")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "additionalGids", default)]
     additional_gids: Vec<u32>,
 }
 
@@ -164,7 +164,7 @@ pub struct Mount {
     #[serde(skip_serializing_if = "Option::is_none")]
     source: Option<String>,
     /// Options are fstab style mount options.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     options: Vec<String>,
 }
 
@@ -188,27 +188,27 @@ pub struct Hook {
 pub struct Hooks {
     /// Prestart is Deprecated. Prestart is a list of hooks to be run before the container process is executed.
     /// It is called in the Runtime Namespace
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     prestart: Vec<Hook>,
     /// CreateRuntime is a list of hooks to be run after the container has been created but before pivot_root or any equivalent operation has been called
     /// It is called in the Runtime Namespace
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "createRuntime")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "createRuntime", default)]
     create_runtime: Vec<Hook>,
     /// CreateContainer is a list of hooks to be run after the container has been created but before pivot_root or any equivalent operation has been called
     /// It is called in the Container Namespace
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "createContainer")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "createContainer", default)]
     create_container: Vec<Hook>,
     /// StartContainer is a list of hooks to be run after the start operation is called but before the container process is started
     /// It is called in the Container Namespace
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "startContainer")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "startContainer", default)]
     start_container: Vec<Hook>,
     /// Poststart is a list of hooks to be run after the container process is started.
     /// It is called in the Runtime Namespace
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     poststart: Vec<String>,
     /// Poststop is a list of hooks to be run after the container process exits.
     /// It is called in the Runtime Namespace
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     poststop: Vec<String>,
 }
 
@@ -217,13 +217,13 @@ pub struct Hooks {
 #[builder(default, setter(into))]
 pub struct Linux {
     /// UIDMapping specifies user mappings for supporting user namespaces.
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "uidMappings")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "uidMappings", default)]
     uid_mappings: Vec<LinuxIDMapping>,
     /// GIDMapping specifies group mappings for supporting user namespaces.
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "gidMappings")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "gidMappings", default)]
     gid_mappings: Vec<LinuxIDMapping>,
     /// Sysctl are a set of key value pairs that are set for the container on start
-    #[serde(skip_serializing_if = "HashMap::is_empty")]
+    #[serde(skip_serializing_if = "HashMap::is_empty", default)]
     sysctl: HashMap<String, String>,
     /// Resources contain cgroup information for handling resource constraints
     /// for the container
@@ -502,7 +502,7 @@ pub struct LinuxResources {
     #[serde(skip_serializing_if = "Option::is_none", rename = "blockIO")]
     block_io: Option<LinuxBlockIO>,
     /// Hugetlb limit (in bytes)
-    #[serde(skip_serializing_if = "Vec::is_empty", rename = "hugepageLimits")]
+    #[serde(skip_serializing_if = "Vec::is_empty", rename = "hugepageLimits", default)]
     hugepage_limits: Vec<LinuxHugepageLimit>,
     /// Network restriction configuration
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -510,7 +510,7 @@ pub struct LinuxResources {
     /// Rdma resource restriction configuration.
     /// Limits are a set of key value pairs that define RDMA resource limits,
     /// where the key is device name and value is resource limits.
-    #[serde(skip_serializing_if = "HashMap::is_empty")]
+    #[serde(skip_serializing_if = "HashMap::is_empty", default)]
     rdma: HashMap<String, LinuxRdma>,
 }
 
