@@ -1,0 +1,15 @@
+[package]
+edition = "2018"
+name = "container-spec"
+version = "1.0.1"
+authors = ["fsyncd"]
+description = "OCI runtime specification for Rust."
+license = "Apache-2.0"
+repository = "https://github.com/fsyncd/container-spec.git" # Doesn't exists
+
+[dependencies.derive_builder]
+version = "0.20.0"
+
+[dependencies.serde]
+version = "1.0.104"
+features = ["derive"]

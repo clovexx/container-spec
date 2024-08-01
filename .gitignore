@@ -1,0 +1,4 @@
+.idea/
+container-spec.iml
+# Project exclude paths
+/target/
