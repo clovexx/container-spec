@@ -209,7 +209,7 @@ pub struct Hooks {
     /// Poststop is a list of hooks to be run after the container process exits.
     /// It is called in the Runtime Namespace
     #[serde(skip_serializing_if = "Vec::is_empty", default)]
-    poststop: Vec<String>,
+    poststop: Vec<Hook>,
 }
 
 /// Linux contains platform-specific configuration for Linux based containers.
@@ -238,7 +238,7 @@ pub struct Linux {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     namespaces: Vec<LinuxNamespace>,
     /// Devices are a list of device nodes that are created for the container
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     devices: Vec<LinuxDevice>,
     /// Seccomp specifies the seccomp security settings for the container.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -600,8 +600,16 @@ pub struct LinuxSeccompArg {
 pub struct LinuxSyscall {
     names: Vec<String>,
     action: String,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
-    args: Vec<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
+    args: Vec<LinuxSyscallArg>,
+}
+
+#[derive(Default, Clone, Builder, Debug, Serialize, Deserialize)]
+#[builder(default, setter(into))]
+pub struct LinuxSyscallArg {
+    index: u64,
+    value: u64,
+    op: String
 }
 
 /// LinuxIntelRdt has container runtime resource constraints for Intel RDT
