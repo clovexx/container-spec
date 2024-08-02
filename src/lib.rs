@@ -76,7 +76,7 @@ pub struct Process {
     #[serde(skip_serializing_if = "Option::is_none")]
     capabilities: Option<LinuxCapabilities>,
     /// Rlimits specifies rlimit options to apply to the process.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     rlimits: Vec<POSIXRlimit>,
     /// NoNewPrivileges controls whether additional privileges could be gained by processes in the container.
     #[serde(skip_serializing_if = "Option::is_none", rename = "noNewPrivileges")]
@@ -104,13 +104,13 @@ pub struct LinuxCapabilities {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     effective: Vec<String>,
     /// Inheritable is the capabilities preserved across execve.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     inheritable: Vec<String>,
     /// Permitted is the limiting superset for effective capabilities.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     permitted: Vec<String>,
     /// Ambient is the ambient set of capabilities that are kept.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     ambient: Vec<String>,
 }
 
@@ -577,7 +577,7 @@ pub struct LinuxSeccomp {
     default_action: String,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     architectures: Vec<String>,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
+    #[serde(skip_serializing_if = "Vec::is_empty", default)]
     flags: Vec<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     syscalls: Vec<LinuxSyscall>,
